@@ -4,7 +4,11 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Blog;
+use App\Models\User;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -18,8 +22,16 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
+    Cache::remember('weather', now()->addHour(), fn () => Http::get('https://api.openweathermap.org/data/2.5/weather', [
+        'q' => 'Kuressaare',
+        'appId' => 'fd58ec2777db435cfa40c95ef6e0f73a',
+        'units' => 'metric'
+    ])->json());
+    
     return Inertia::render('Dashboard', [
-        'blogs' => Blog::with('comments')->get()
+        'weatherData' => Cache::get('weather'),
+        'blogs' => Blog::with('comments')->get(),
+        'users' => User::all()
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -33,10 +45,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('blog', BlogController::class)->except('update');
     Route::post('blog/update/{blog}', [BlogController::class, 'update'])->name('blog.update');
 
-    Route::resource('comment', CommentController::class)->except('update');
-    Route::post('comment/update/{comment}', [CommentController::class, 'update'])->name('comment.update');
 });
 
-
+Route::resource('comment', CommentController::class)->except('update');
+Route::post('comment/update/{comment}', [CommentController::class, 'update'])->name('comment.update');
 
 require __DIR__.'/auth.php';

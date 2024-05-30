@@ -2,7 +2,8 @@
 import { Head, Link, useForm } from '@inertiajs/vue3';
 
 const props = defineProps({
-    blog: Object
+    blog: Object,
+    users: Object,
 })
 
 const form = useForm({
@@ -24,6 +25,10 @@ function returnDate(date) {
         month: "long",
         day: "numeric",
     });
+}
+
+function returnUser(id) {
+    return props.users.find(x => x.id === id)
 }
 
 console.log(props.blog)
@@ -49,10 +54,10 @@ console.log(props.blog)
             <p>Comments</p>
             <div v-for="comment in blog.comments" class="my-2 border rounded lg p-2 flex justify-between items-center">
                 <div>
-                    <p class="text-sm text-neutral-600">{{ returnDate(comment.created_at) }}</p>
+                    <p class="text-sm text-neutral-600">{{ returnUser(comment.user_id).name }} {{ returnDate(comment.created_at) }}</p>
                     <p>{{ comment.description }}</p>
                 </div>
-                <div class="flex gap-4 pr-4" v-if="$page.props.auth.user.level === 'admin'">
+                <div class="flex gap-4 pr-4" v-if="$page.props.auth.user.level === 'admin' || $page.props.auth.user.id === comment.user_id">
                     <Link :href="route('comment.edit', comment)">Edit</Link>
                     <Link class="text-red-500" :href="route('comment.destroy', comment)" method="delete" as="button">Delete</Link>
                 </div>

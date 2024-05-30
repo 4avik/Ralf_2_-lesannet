@@ -8,10 +8,6 @@ const props = defineProps({
     users: Object,
     weatherData: Object
 })
-
-console.log(props.blogs)
-
-
 </script>
 
 <template>

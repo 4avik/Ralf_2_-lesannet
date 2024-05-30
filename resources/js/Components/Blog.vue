@@ -30,8 +30,6 @@ function returnDate(date) {
 function returnUser(id) {
     return props.users.find(x => x.id === id)
 }
-
-console.log(props.blog)
 </script>
 
 <template>

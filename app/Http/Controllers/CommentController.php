@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Blog;
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class CommentController extends Controller
@@ -36,6 +37,7 @@ class CommentController extends Controller
 
         Comment::create([
             'blog_id' => $request['id'],
+            'user_id' => Auth::id(),
             'description' => $request['comment']
         ]);
 

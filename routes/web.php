@@ -6,7 +6,6 @@ use App\Http\Controllers\ProfileController;
 use App\Models\Blog;
 use App\Models\User;
 use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
@@ -34,6 +33,14 @@ Route::get('/dashboard', function () {
         'users' => User::all()
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/store', function () {
+    return Inertia::render('Store');
+})->middleware(['auth', 'verified'])->name('store');
+
+Route::get('/maps', function () {
+    return Inertia::render('Maps');
+})->middleware(['auth', 'verified'])->name('maps');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -3,7 +3,10 @@
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ShoppingCartController;
+use App\Http\Controllers\StoreController;
 use App\Models\Blog;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Cache;
@@ -35,7 +38,10 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/store', function () {
-    return Inertia::render('Store');
+    return Inertia::render('Store/Store', [
+        'products' => Product::all(),
+        'cart' => session()->get('cart')
+    ]);
 })->middleware(['auth', 'verified'])->name('store');
 
 Route::get('/maps', function () {
@@ -56,5 +62,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
 Route::resource('comment', CommentController::class)->except('update');
 Route::post('comment/update/{comment}', [CommentController::class, 'update'])->name('comment.update');
+
+Route::resource('cart', StoreController::class)->except('update');
+
+Route::post('/shopping-cart-add', [ShoppingCartController::class, 'addToCart'])->name('shoppingCart.add');
+Route::get('/checkout', [ShoppingCartController::class, 'showCheckout'])->name('shop.checkout');
+Route::delete('/shopping-cart-delete', [ShoppingCartController::class, 'destroyProduct'])->name('shoppingCart.destroy');
 
 require __DIR__.'/auth.php';

@@ -4,18 +4,18 @@ namespace Deployer;
 require 'recipe/laravel.php';
 
 // Zone ühendus
-set('application', 'hajus');
-set('remote_user', 'virt106858');
-set('http_user', 'virt106858');
+set('application', 'ralf2hajus');
+set('remote_user', 'virt106854');
+set('http_user', 'virt106854');
 set('keep_releases', 2);
 
-host('tak21fredyait.itmajakas.ee')
-    ->setHostname('tak21fredyait.itmajakas.ee')
-    ->set('http_user', 'virt106858')
-    ->set('deploy_path', '~/domeenid/www.tak21fredyait.itmajakas.ee/hajus')
-    ->set('branch', 'main');
+host('tak21aavik.itmajakas.ee')
+    ->setHostname('tak21aavik.itmajakas.ee')
+    ->set('http_user', 'virt106854')
+    ->set('deploy_path', '~/domeenid/www.tak21aavik.itmajakas.ee/ralf2hajus')
+    ->set('branch', 'master');
 
-set('repository', 'git@github.com:freduard/hajus-rakendused.git');
+set('repository', 'git@github.com:4avik/Ralf_2_-lesannet.git');
 
 // tasks
 task('opcache:clear', function () {

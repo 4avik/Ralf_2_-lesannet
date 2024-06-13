@@ -54,6 +54,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::resource('blog', BlogController::class)->except('update');
+
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('blog', BlogController::class)->except('update');
     Route::post('blog/update/{blog}', [BlogController::class, 'update'])->name('blog.update');

@@ -38,7 +38,8 @@ console.log(props.weatherData)
                 <!-- <div v-for="(blog, index) in blogs" :key="index">
                     <Blog :blog="blog" />
                 </div> -->
-                <!-- <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-4" v-for="blog in blogs">
+                <!-- <
+                 div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-4" v-for="blog in blogs">
                     <div class="p-6 text-gray-900">{{ blog.title }}</div>
                     <div class="px-6 pb-6 text-gray-900">{{ blog.description }}</div>
                     <form method="POST" class="px-6 pb-6" @submit.prevent="submit(blog)">

@@ -13,7 +13,7 @@ host('tak21aavik.itmajakas.ee')
     ->setHostname('tak21aavik.itmajakas.ee')
     ->set('http_user', 'virt106854')
     ->set('deploy_path', '~/domeenid/www.tak21aavik.itmajakas.ee/ralf2hajus')
-    ->set('branch', 'master');
+    ->set('branch', 'main');
 
 set('repository', 'git@github.com:4avik/Ralf_2_-lesannet.git');
 

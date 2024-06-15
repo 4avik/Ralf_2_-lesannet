@@ -29,6 +29,20 @@ Route::get('/dashboard', function () {
         'appId' => 'fd58ec2777db435cfa40c95ef6e0f73a',
         'units' => 'metric'
     ])->json());
+
+    Route::get('/search-weather', function (\Illuminate\Http\Request $request) {
+        $city = $request->query('city');
+        $cacheKey = 'weather_' . $city;
+        $weatherData = Cache::remember($cacheKey, now()->addMinutes(10), function () use ($city) {
+            return Http::get('https://api.openweathermap.org/data/2.5/weather', [
+                'q' => $city,
+                'appId' => env('OPENWEATHERMAP_API_KEY'), 
+                'units' => 'metric'
+            ])->json();
+        });
+    
+        return response()->json($weatherData);
+    });
     
     return Inertia::render('Dashboard', [
         'weatherData' => Cache::get('weather'),
